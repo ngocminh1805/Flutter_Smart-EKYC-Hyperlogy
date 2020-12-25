@@ -197,9 +197,14 @@ class _FinishSceen extends State<FinishScreen> {
   //--------------------------- thực hiện lại thao tác --------------------------------------------------------------------------
   void onReCapture() {
     // Navigator.pop(context);
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => UploadIdentityCardScreen()),
+    // );
+
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => UploadIdentityCardScreen()),
+      MaterialPageRoute(builder: (context) => FinishEkycScreen()),
     );
 
     // Navigator.pushAndRemoveUntil(

@@ -26,10 +26,46 @@ class _FinishEkycSceen extends State<FinishEkycScreen> {
       body: Container(
         child: Column(
           children: <Widget>[
-            Expanded(),
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top: 20, bottom: 20),
+                      child: Text(
+                        'Chúc mừng quý khách đã đăng ký tài khoản thành công!!!',
+                        style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        'Tài khoản của quý khách giới hạn giao dịch định mức 5,000,000 VNĐ và không được rút tiền mặt. Vui lòng kết nối Video call với tổng đài viên để được nâng cấp hạn mức giao dịch',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
             Container(
+              padding: EdgeInsets.all(10),
               child: FlatButton(
-                child: Text('Gửi yêu cầu kết nối tới tổng đài viên'),
+                child: Text(
+                  'Gửi yêu cầu kết nối tới tổng đài viên',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
+                ),
+                padding:
+                    EdgeInsets.only(bottom: 5, top: 5, left: 30, right: 30),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(30)),
                 color: Colors.blueGrey,
                 onPressed: () => makeCall(),
               ),
