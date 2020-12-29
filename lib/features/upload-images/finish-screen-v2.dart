@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_ekyc/api/base.dart';
 import 'package:smart_ekyc/features/finish_ekyc/finish-ekyc-screen.dart';
-import 'package:smart_ekyc/features/login/login_screen.dart';
 import 'package:smart_ekyc/features/upload-images/components/image-preview.dart';
 import 'package:smart_ekyc/features/upload-images/components/user-info-item.dart';
 import 'package:http/http.dart' as http;
@@ -13,20 +12,20 @@ import 'package:smart_ekyc/features/upload-images/upload-identity-card-screen.da
 
 import 'models/user-info.dart';
 
-class FinishScreen extends StatefulWidget {
+class FinishScreenV2 extends StatefulWidget {
   final String path1; // image front identity card
   final String path2; // image back identity card
   final String path3; // image face 1
   final String path4; // image face 2
   final String path5; // image face 3
 
-  FinishScreen({this.path1, this.path2, this.path3, this.path4, this.path5});
+  FinishScreenV2({this.path1, this.path2, this.path3, this.path4, this.path5});
 
   @override
-  _FinishScreen createState() => _FinishScreen();
+  _FinishScreenV2 createState() => _FinishScreenV2();
 }
 
-class _FinishScreen extends State<FinishScreen> {
+class _FinishScreenV2 extends State<FinishScreenV2> {
   List data = []; // lưu trữ data của CMT
   bool isloading = true; // loading dữ liệu
   var base = Base();
@@ -170,7 +169,7 @@ class _FinishScreen extends State<FinishScreen> {
         return widget.path5;
         break;
       default:
-        return '';
+        return widget.path3;
     }
   }
 
@@ -230,26 +229,15 @@ class _FinishScreen extends State<FinishScreen> {
 
   //--------------------------- thực hiện lại thao tác --------------------------------------------------------------------------
   void onReCapture() {
-    // Navigator.pop(context);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => UploadIdentityCardScreen()),
     );
-
-    // Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => UploadIdentityCardScreen()),
-    //     (route) => false);
   }
 
   // --------------------------- hoàn thành đăng ký ---------------------------------------------------------------------------
 
   void onComplete() {
-    // Navigator.pushAndRemoveUntil(
-    //     context,
-    //     MaterialPageRoute(builder: (context) => LoginScreen()),
-    //     (route) => false);
-
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => FinishEkycScreen()),
@@ -296,17 +284,13 @@ class _FinishScreen extends State<FinishScreen> {
     final prefs = await SharedPreferences.getInstance();
     token = prefs.getString('Token');
     guid = prefs.getString('guid');
-    var URL = base.URL_FACE;
+    var URL = 'http://14.224.132.206:8686/api/FaceVerify/Verify';
     var req = new http.MultipartRequest("POST", Uri.parse(URL));
 
     //--------------- tạo header và đẩy file ảnh và guid và params của api -----------------------------------------------------
     Map<String, String> headers = {"Authorization": "Bear " + token};
     req.files
-        .add(await http.MultipartFile.fromPath('CaptureImage1', widget.path3));
-    req.files
-        .add(await http.MultipartFile.fromPath('CaptureImage2', widget.path4));
-    req.files
-        .add(await http.MultipartFile.fromPath('CaptureImage3', widget.path5));
+        .add(await http.MultipartFile.fromPath('CaptureImage', widget.path3));
     req.fields['GuidID'] = guid;
     req.headers.addAll(headers);
 
@@ -321,7 +305,7 @@ class _FinishScreen extends State<FinishScreen> {
       // ----------- set state cho biết nhận diện thành công hay không -------------------------------------------
       if (data != null) {
         setState(() {
-          matchingResult = data['matchingResult'];
+          matchingResult = data['result'];
           compareFace = false;
           userImage = checkUserImage(data['imageNumber']);
         });

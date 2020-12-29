@@ -8,6 +8,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smart_ekyc/api/base.dart';
+import 'package:smart_ekyc/features/upload-images/finish-screen-v2.dart';
 import 'package:smart_ekyc/features/upload-images/finish-screen.dart';
 import 'package:http/http.dart' as http;
 
@@ -405,7 +406,7 @@ class _UploadIdentityCardScreen extends State<UploadIdentityCardScreen> {
                                               this.context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      FinishScreen(
+                                                      FinishScreenV2(
                                                         path1: imagePath1,
                                                         path2: imagePath2,
                                                         path3: imagePath3,
